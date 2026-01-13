@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mr Offlinee Zone</title>
+<style>
+  /* Basic Reset */
+  * { margin:0; padding:0; box-sizing:border-box; font-family: 'Arial', sans-serif; }
+  body {
+    background: radial-gradient(circle at center, #0f0f0f, #111111);
+    color: #fff;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    overflow:hidden;
+  }
+  .container {
+    padding: 20px 40px;
+    border-radius: 15px;
+    background: rgba(30,30,30,0.85);
+    box-shadow: 0 0 20px #38bdf8, 0 0 40px #6366f1;
+  }
+  h1 {
+    font-size: 2.2rem;
+    margin-bottom: 15px;
+    animation: glowText 2s infinite alternate;
+  }
+  p {
+    font-size:1.2rem;
+    margin-bottom:20px;
+  }
+  #visitor-count {
+    margin-top:15px;
+    font-weight:bold;
+    color:#facc15;
+  }
+  #start-btn {
+    padding: 10px 25px;
+    font-size: 1rem;
+    border:none;
+    border-radius:8px;
+    background:#6366f1;
+    color:white;
+    cursor:pointer;
+    transition:0.3s;
+  }
+  #start-btn:hover { background:#38bdf8; transform:scale(1.05); }
+
+  @keyframes glowText {
+    from { text-shadow:0 0 5px #38bdf8, 0 0 10px #38bdf8; }
+    to { text-shadow:0 0 15px #38bdf8, 0 0 30px #6366f1; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container" id="landing">
+  <h1>Welcome to Offline baby 😈🔥</h1>
+  <p>You just entered Mr Offlinee's zone 😎</p>
+  <button id="start-btn">Tap to Enter</button>
+  <div id="visitor-count"></div>
+</div>
+
+<audio id="bg-music" loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const startBtn = document.getElementById('start-btn');
+const landing = document.getElementById('landing');
+const visitorCount = document.getElementById('visitor-count');
+const music = document.getElementById('bg-music');
+
+// Visitor count using localStorage
+let visits = localStorage.getItem("visits") || 0;
+visits = parseInt(visits) + 1;
+localStorage.setItem("visits", visits);
+visitorCount.innerText = `You are visitor #${visits}`;
+
+// Voice setup
+const msg = new SpeechSynthesisUtterance("Welcome to Offline baby");
+msg.rate = 1;
+msg.pitch = 1.2;
+msg.voice = speechSynthesis.getVoices().find(v => v.name.includes("Google UK English Female") || v.name.includes("Robot"));
+
+// Start button event
+startBtn.addEventListener('click', () => {
+  // Play voice
+  speechSynthesis.speak(msg);
+
+  // Play music
+  music.volume = 0.3;
+  music.play();
+
+  // Hide button
+  startBtn.style.display = 'none';
+});
+</script>
+
+</body>
+</html>
